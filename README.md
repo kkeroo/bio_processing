@@ -8,5 +8,5 @@ GRenMlin (Gene Regulatory network Modeling) is a package for constructing and si
 
 Demonstrative examples are provided in [`examples.ipynb`](examples.ipynb).
 
-![GRenMlin](logo_lrg.png)
+![GRenMlin](logo.png)
 
