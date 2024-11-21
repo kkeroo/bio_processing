@@ -54,7 +54,7 @@ def get_steady(grn, model=False, rep_num=1, INS_def=False, INS_factor=1, eps=10*
     return df
 
 
-def get_steady_single(grn, IN, model=False, INS_factor=1, plot_on=True, legend=True, eps=10**(-3), R0=False):
+def get_steady_single(grn, IN, model=False, INS_factor=1, plot_on=True, legend=True, eps=10**(-3), R0=False, xlabel='time [a.u.]', ylabel='concentrations [a.u.]'):
     # read the model module    
     
     if type(model) == bool:
@@ -98,12 +98,16 @@ def get_steady_single(grn, IN, model=False, INS_factor=1, plot_on=True, legend=T
         plt.plot(states)
         if legend:
             plt.legend(grn.species_names)
+
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+
         plt.show()
 
     return states
 
 
-def simulate_single(grn, IN, model=False, INS_factor=1, t_end=100, plot_on=True, legend=True, R0=False):
+def simulate_single(grn, IN, model=False, INS_factor=1, t_end=100, plot_on=True, legend=True, R0=False, xlabel='time [a.u.]', ylabel='concentrations [a.u.]'):
     if type(model) == bool:
         grn.generate_model()
         model = 'model'
@@ -131,12 +135,16 @@ def simulate_single(grn, IN, model=False, INS_factor=1, t_end=100, plot_on=True,
         plt.plot(T,Y)
         if legend:
             plt.legend(grn.species_names)
+        
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        
         plt.show()
 
     return T,Y
 
 
-def simulate_sequence(grn, IN_seq, model=False, INS_factor=1, t_single=100, plot_on=True, legend=True):
+def simulate_sequence(grn, IN_seq, model=False, INS_factor=1, t_single=100, plot_on=True, legend=True, xlabel='time [a.u.]', ylabel='concentrations [a.u.]'):
     if type(model) == bool:
         grn.generate_model()
         model = 'model'
@@ -175,6 +183,10 @@ def simulate_sequence(grn, IN_seq, model=False, INS_factor=1, t_single=100, plot
         plt.plot(T,Y)
         if legend:
             plt.legend(grn.species_names)
+
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        
         plt.show()
 
     return T,Y
