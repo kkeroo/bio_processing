@@ -3,6 +3,10 @@ import numpy as np
 import simulator
 from helpers import powerset
 
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
 
 class grn:
     def __init__(self):
@@ -118,6 +122,40 @@ class grn:
             print('',file=f)
             print(f'def solve_model_steady(state):', file = f)
             print(f'    return solve_model(0, state)', file = f)
+
+
+    def plot_network(self):
+        activators = {s:[] for s in self.species_names}
+        inhibitors = {s:[] for s in self.species_names}
+
+
+        for gene in self.genes:
+            for product in gene['products']:
+                activators[product['name']].extend([x['name'] for x in gene['regulators'] if x['type'] == 1])
+                inhibitors[product['name']].extend([x['name'] for x in gene['regulators'] if x['type'] == -1])
+
+        edges_act = set()
+        edges_inh = set()
+
+        for prod in activators:
+            for reg in activators[prod]:
+                edges_act.add((reg, prod))        
+
+        for prod in inhibitors:
+            for reg in inhibitors[prod]:
+                edges_inh.add((reg, prod))        
+
+        edges_both = edges_act & edges_inh
+        edges_act -= edges_both
+        edges_inh -= edges_both
+
+        edges = list(edges_both) + list(edges_act) + list(edges_inh)
+        colors = ['orange']*len(edges_both) + ['blue']*len(edges_act) + ['red']*len(edges_inh)
+
+        G = nx.DiGraph()
+        G.add_edges_from(edges)
+        nx.draw_networkx(G, pos=nx.circular_layout(G), arrows=True, node_color = 'w', edge_color=colors)
+        plt.show()
 
 
 

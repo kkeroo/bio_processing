@@ -6,3 +6,4 @@ GRenMlin (Gene Regulatory network Modeling) is a package for constructing and si
 * [`helpers.py`](helpers.py): helper functions.
 
 Demonstrative examples are provided in [`examples.ipynb`](examples.ipynb).
+
