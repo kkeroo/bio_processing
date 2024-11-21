@@ -1,4 +1,7 @@
 # GRenMlin
+
+![GRenMlin](logo.png)
+
 GRenMlin (Gene Regulatory network Modeling) is a package for constructing and simulating models of gene regulatory networks. Its main modules are:
 
 * [`grn.py`](grn.py): supports building and modifactions of gene regulatory network models.
