@@ -32,7 +32,7 @@ class grn:
 
     """
 
-    def add_gene(self, alpha, regulators, products, logic_type='mixed'):
+    def add_gene(self, alpha, regulators, products, logic_type='and'):
         if logic_type == 'mixed':
             logic_type = np.random.choice(['and', 'or'])
 
