@@ -107,7 +107,7 @@ def get_steady_single(grn, IN, model=False, INS_factor=1, plot_on=True, legend=T
     return states
 
 
-def simulate_single(grn, IN, model=False, INS_factor=1, t_end=100, plot_on=True, legend=True, R0=False, xlabel='time [a.u.]', ylabel='concentrations [a.u.]'):
+def simulate_single(grn, IN, model=False, INS_factor=1, t_end=100, plot_on=True, legend=True, R0=False, xlabel='time [a.u.]', ylabel='concentrations [a.u.]', filter_species=None):
     if type(model) == bool:
         grn.generate_model()
         model = 'model'
@@ -132,9 +132,15 @@ def simulate_single(grn, IN, model=False, INS_factor=1, t_end=100, plot_on=True,
     Y = z.T
 
     if plot_on:
-        plt.plot(T,Y)
+        Y_copy = Y.copy()
+        if filter_species:
+            Y_copy = Y_copy[:,filter_species]
+        plt.plot(T,Y_copy)
         if legend:
-            plt.legend(grn.species_names)
+            if filter_species:
+                plt.legend([grn.species_names[i] for i in filter_species])
+            else:
+                plt.legend(grn.species_names)
         
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
@@ -144,7 +150,7 @@ def simulate_single(grn, IN, model=False, INS_factor=1, t_end=100, plot_on=True,
     return T,Y
 
 
-def simulate_sequence(grn, IN_seq, model=False, INS_factor=1, t_single=100, plot_on=True, legend=True, xlabel='time [a.u.]', ylabel='concentrations [a.u.]'):
+def simulate_sequence(grn, IN_seq, model=False, INS_factor=1, t_single=100, plot_on=True, legend=True, xlabel='time [a.u.]', ylabel='concentrations [a.u.]', filter_species=None):
     if type(model) == bool:
         grn.generate_model()
         model = 'model'
@@ -180,9 +186,12 @@ def simulate_sequence(grn, IN_seq, model=False, INS_factor=1, t_single=100, plot
             T = np.append(T, T1+T[-1])
 
     if plot_on:
-        plt.plot(T,Y)
+        Y_plot = Y.copy()
+        if filter_species:
+            Y_plot = Y_plot[:,filter_species]
+        plt.plot(T,Y_plot)
         if legend:
-            plt.legend(grn.species_names)
+            plt.legend([grn.species_names[i] for i in filter_species])
 
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
