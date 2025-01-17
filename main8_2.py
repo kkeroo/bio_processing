@@ -43,7 +43,7 @@ my_grn.add_species("Y8", delta=delta)
 
 
 # regulators of a gene
-regulators = [{'name': 'X1', 'type': 1, 'Kd': 5, 'n': 2}]
+regulators = [{'name': 'X1', 'type': 1, 'Kd': 8, 'n': 10}]
 # products of a gene
 products = [{'name': 'Y2'}]
 
@@ -52,7 +52,7 @@ my_grn.add_gene(alpha, regulators, products)
 
 
 # regulators of a gene
-regulators = [{'name': 'X2', 'type': 1, 'Kd': 5, 'n': 2}]
+regulators = [{'name': 'X2', 'type': 1, 'Kd': 8, 'n': 10}]
 # products of a gene
 products = [{'name': 'Y3'}]
 
@@ -60,7 +60,7 @@ products = [{'name': 'Y3'}]
 my_grn.add_gene(alpha, regulators, products)
 
 # regulators of a gene
-regulators = [{'name': 'X3', 'type': 1, 'Kd': 5, 'n': 2}]
+regulators = [{'name': 'X3', 'type': 1, 'Kd': 8, 'n': 10}]
 # products of a gene
 products = [{'name': 'Y4'}]
 
@@ -68,7 +68,7 @@ products = [{'name': 'Y4'}]
 my_grn.add_gene(alpha, regulators, products)
 
 # regulators of a gene
-regulators = [{'name': 'X4', 'type': 1, 'Kd': 5, 'n': 2}]
+regulators = [{'name': 'X4', 'type': 1, 'Kd': 8, 'n': 10}]
 # products of a gene
 products = [{'name': 'Y5'}]
 
@@ -195,25 +195,27 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
 
         R_0 = last_values[-n_RS:]
 
-        t1 = 1 if state[0] > 50 else 0
-        t2 = 1 if state[1] > 50 else 0
-        t3 = 1 if state[2] > 50 else 0
-        t4 = 1 if state[3] > 50 else 0
-        t5 = 1 if state[4] > 50 else 0
-        t6 = 1 if state[5] > 50 else 0
-        t7 = 1 if state[6] > 50 else 0
-        t8 = 1 if state[7] > 50 else 0
+        threshold = 95
+
+        t1 = 1 if state[0] > threshold else 0
+        t2 = 1 if state[1] > threshold else 0
+        t3 = 1 if state[2] > threshold else 0
+        t4 = 1 if state[3] > threshold else 0
+        t5 = 1 if state[4] > threshold else 0
+        t6 = 1 if state[5] > threshold else 0
+        t7 = 1 if state[6] > threshold else 0
+        t8 = 1 if state[7] > threshold else 0
         gt_state = test([t1, t2, t3, t4, t5, t6, t7, t8])
         state = [Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8]
 
-        t1 = 1 if Y1 > 50 else 0
-        t2 = 1 if Y2 > 50 else 0
-        t3 = 1 if Y3 > 50 else 0
-        t4 = 1 if Y4 > 50 else 0
-        t5 = 1 if Y5 > 50 else 0
-        t6 = 1 if Y6 > 50 else 0
-        t7 = 1 if Y7 > 50 else 0
-        t8 = 1 if Y8 > 50 else 0
+        t1 = 1 if Y1 > threshold else 0
+        t2 = 1 if Y2 > threshold else 0
+        t3 = 1 if Y3 > threshold else 0
+        t4 = 1 if Y4 > threshold else 0
+        t5 = 1 if Y5 > threshold else 0
+        t6 = 1 if Y6 > threshold else 0
+        t7 = 1 if Y7 > threshold else 0
+        t8 = 1 if Y8 > threshold else 0
 
         testing_state = [t1, t2, t3, t4, t5, t6, t7, t8]
 
@@ -248,7 +250,7 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
 
     for i in range(len(filter_species)):
         plt.figure()
-        plt.plot(T_plot, Y_plot[:,i])
+        plt.plot(T_plot, full_Y[:,8+i])
         for j in range(0, len(T_plot), clock_period * 2):
             plt.axvspan(j, j + clock_period, facecolor='lightgray', alpha=0.5)
         plt.xlabel('time [a.u.]')
@@ -262,4 +264,4 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
     plt.show()
 
 
-run_simulation(grn=my_grn, state=[100, 0, 0, 0, 0, 0, 0, 0], n_iterations=260, filter_species=[0, 1, 2, 3, 4, 5, 6, 7], print_output=True, save_plots=False)
+run_simulation(grn=my_grn, state=[100, 0, 0, 0, 0, 0, 0, 0], n_iterations=50, filter_species=[0, 1, 2, 3, 4, 5, 6, 7], print_output=False, save_plots=False)
