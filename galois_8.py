@@ -30,8 +30,7 @@ my_grn.add_species("Y8", delta=delta)
 
 
 # Always zero
-regulators = [{'name': 'X1', 'type': 1, 'Kd': 1, 'n': 2},
-                {'name': 'X1', 'type': -1, 'Kd': 1, 'n': 2}]
+regulators = [{'name': 'X8', 'type': 1, 'Kd': 1, 'n': 2}]
 # products of a gene
 products = [{'name': 'Y1'}]
 
@@ -129,18 +128,8 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
         X1, X2, X3, X4, X5, X6, X7, X8, Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8 = last_values
 
         if print_output:
-            # print(f"Iteration {i}: Y1: {Y1:.1f}, Y2: {Y2:.1f}, Y3: {Y3:.1f}, Y4: {Y4:.1f} Y5: {Y5:.1f} Y6: {Y6:.1f}"
-            #       f" Y7: {Y7:.1f} Y8: {Y8:.1f}")
-            K8 = 1 if Y8 > 50 else 0
-            K7 = 1 if Y7 > 50 else 0
-            K6 = 1 if Y6 > 50 else 0
-            K5 = 1 if Y5 > 50 else 0
-            K4 = 1 if Y4 > 50 else 0
-            K3 = 1 if Y3 > 50 else 0
-            K2 = 1 if Y2 > 50 else 0
-            K1 = 1 if Y1 > 50 else 0
-
-            print(f"Iteration {i}: {K8}{K7}{K6}{K5}{K4}{K3}{K2}{K1}")
+            print(f"Iteration {i}: X1: {X1:.1f}, X2: {X2:.1f}, X3: {X3:.1f}, X4: {X4:.1f} X5: {X5:.1f} X6: {X6:.1f} "
+                  f"X7: {X7:.1f} X8: {X8:.1f}")
 
         R_0 = last_values[-n_RS:]
 
@@ -170,7 +159,8 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
 
     for i in range(len(filter_species)):
         plt.figure()
-        plt.plot(T_plot, Y_plot[:,i])
+        T_plot = np.arange(0, full_T)
+        plt.plot(T_plot, full_Y[:,8+i])
         for j in range(0, len(T_plot), clock_period * 2):
             plt.axvspan(j, j + clock_period, facecolor='lightgray', alpha=0.5)
         plt.xlabel('time [a.u.]')
@@ -183,8 +173,4 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
 
     plt.show()
 
-
-# Letter B - 01000010
-letter_binary = [0, 100, 0, 0, 0, 0, 100, 0]
-
-run_simulation(grn=my_grn, state=letter_binary, n_iterations=8, filter_species=[0, 1, 2, 3, 4, 5, 6, 7], print_output=True, save_plots=False)
+run_simulation(grn=my_grn, state=[100, 0, 0, 0, 0, 0, 0, 0], n_iterations=50, filter_species=[0, 1, 2, 3, 4, 5, 6, 7], print_output=True, save_plots=False)
