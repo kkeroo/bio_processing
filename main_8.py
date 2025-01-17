@@ -104,27 +104,27 @@ my_grn.add_gene(alpha, regulators, products)
 
 # A⊕B⊕C=(A∧¬B∧¬C)∨(¬A∧B∧¬C)∨(¬A∧¬B∧C)∨(A∧B∧C)
 
-regulators = [{'name': 'X4', 'type': 1, 'Kd': 1, 'n': 2},
-                {'name': 'X6', 'type': -1, 'Kd': 1, 'n': 2},
-                {'name': 'X8', 'type': -1, 'Kd': 1, 'n': 2}]
+regulators = [{'name': 'X4', 'type': 1, 'Kd': 3, 'n': 2},
+                {'name': 'X6', 'type': -1, 'Kd': 3, 'n': 2},
+                {'name': 'X8', 'type': -1, 'Kd': 3, 'n': 2}]
 products = [{'name': 'Y1'}]
 my_grn.add_gene(10, regulators, products)
 
-regulators = [{'name': 'X4', 'type': -1, 'Kd': 1, 'n': 2},
-                {'name': 'X6', 'type': 1, 'Kd': 1, 'n': 2},
-                {'name': 'X8', 'type': -1, 'Kd': 1, 'n': 2}]
+regulators = [{'name': 'X4', 'type': -1, 'Kd': 3, 'n': 2},
+                {'name': 'X6', 'type': 1, 'Kd': 3, 'n': 2},
+                {'name': 'X8', 'type': -1, 'Kd': 3, 'n': 2}]
 products = [{'name': 'Y1'}]
 my_grn.add_gene(10, regulators, products)
 
-regulators = [{'name': 'X4', 'type': -1, 'Kd': 1, 'n': 2},
-                {'name': 'X6', 'type': -1, 'Kd': 1, 'n': 2},
-                {'name': 'X8', 'type': 1, 'Kd': 1, 'n': 2}]
+regulators = [{'name': 'X4', 'type': -1, 'Kd': 3, 'n': 2},
+                {'name': 'X6', 'type': -1, 'Kd': 3, 'n': 2},
+                {'name': 'X8', 'type': 1, 'Kd': 3, 'n': 2}]
 products = [{'name': 'Y1'}]
 my_grn.add_gene(10, regulators, products)
 
-regulators = [{'name': 'X4', 'type': 1, 'Kd': 1, 'n': 2},
-                {'name': 'X6', 'type': 1, 'Kd': 1, 'n': 2},
-                {'name': 'X8', 'type': 1, 'Kd': 1, 'n': 2}]
+regulators = [{'name': 'X4', 'type': 1, 'Kd': 3, 'n': 2},
+                {'name': 'X6', 'type': 1, 'Kd': 3, 'n': 2},
+                {'name': 'X8', 'type': 1, 'Kd': 3, 'n': 2}]
 products = [{'name': 'Y1'}]
 my_grn.add_gene(10, regulators, products)
 
@@ -196,7 +196,7 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
         clock_period = 251
 
         plt.figure()
-        plt.plot(T_plot, Y_plot)
+        plt.plot(T_plot, full_Y)
         for i in range(0, len(T_plot), clock_period * 2):
             plt.axvspan(i, i + clock_period, facecolor='lightgray', alpha=0.5)
 
@@ -211,9 +211,12 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
     # Make a plot for each species in 4 subplots
     clock_period = 251
 
+    print(full_Y.shape)
     for i in range(len(filter_species)):
         plt.figure()
-        plt.plot(T_plot, Y_plot[:,i])
+        T_plot = np.arange(0, full_T)
+        # plt.plot(T_plot, Y_plot[:,7+i])
+        plt.plot(T_plot, full_Y[:,8+i])
         for j in range(0, len(T_plot), clock_period * 2):
             plt.axvspan(j, j + clock_period, facecolor='lightgray', alpha=0.5)
         plt.xlabel('time [a.u.]')
@@ -227,4 +230,4 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
     plt.show()
 
 
-run_simulation(grn=my_grn, state=[100, 0, 0, 0, 0, 0, 0, 0], n_iterations=260, filter_species=[0, 1, 2, 3, 4, 5, 6, 7], print_output=False, save_plots=False)
+run_simulation(grn=my_grn, state=[100, 0, 0, 0, 0, 0, 0, 0], n_iterations=50, filter_species=[0, 1, 2, 3, 4, 5, 6, 7], print_output=False, save_plots=False, plot_full=True)

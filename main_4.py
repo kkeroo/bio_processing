@@ -50,7 +50,7 @@ regulators = [{'name': 'X3', 'type': 1, 'Kd': 5, 'n': 2}]
 products = [{'name': 'Y4'}]
 
 # adding a gene to the network - the first parameter specifies the rate of gene expression
-my_grn.add_gene(15, regulators, products)
+my_grn.add_gene(10, regulators, products)
 
 
 # XOR
@@ -144,7 +144,7 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
 
     for i in range(len(filter_species)):
         plt.figure()
-        plt.plot(T_plot, Y_plot[:,i])
+        plt.plot(T_plot, full_Y[:,4+i])
         for j in range(0, len(T_plot), clock_period * 2):
             plt.axvspan(j, j + clock_period, facecolor='lightgray', alpha=0.5)
         plt.xlabel('time [a.u.]')
@@ -158,4 +158,4 @@ def run_simulation(grn, state, n_iterations=100, filter_species=None, plot_full=
     plt.show()
 
 
-run_simulation(grn=my_grn, state=[100, 0, 0, 0], n_iterations=100, filter_species=[0, 1, 2, 3], save_plots=False)
+run_simulation(grn=my_grn, state=[100, 0, 0, 0], n_iterations=15, filter_species=[0, 1, 2, 3], save_plots=False)
